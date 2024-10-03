@@ -33,7 +33,20 @@ docker compose up -d
 Wait the container `filebeat_setup` to auto exit(0)
 
 6. Test the Suricata IDS:
-```bash
-docker run --rm -it --network suricata_elastic_net instrumentisto/nmap -sV -v -p 0-65535 suricata
-```
+
 *NOTE: folder name is `suricata` so the network name is `suricata_elastic_net`, you should change the value to match the network name, if you follow the instruction, it will likely named: `suricata_lab_elastic_net`*
+
+Test nmap detection:
+```bash
+docker run --rm -it --network suricata_elastic_net instrumentisto/nmap -sV -v -p 0-1024 suricata
+```
+
+Test sql injection detection:
+```bash
+docker run --rm -it --network suricata_elastic_net googlesky/sqlmap:latest-alpine http://suricata?page=1 --dbs
+```
+
+Test dos detection
+```bash
+docker run --rm -it --network suricata_elastic_net minkurudev/dos:0.0.1 http://suricata
+```
