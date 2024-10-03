@@ -126,15 +126,18 @@ services:
       - elastic_net
 
   suricata:
-    image: minkurudev/suricata:1.0.3
+    image: minkurudev/suricata:1.0.4
     volumes:
       - logs:/var/log/suricata
       # - etc:/etc/suricata
       # - lib:/var/lib/suricata
+    ports:
+      - 5000:80
     networks:
       - elastic_net
 
   filebeat_setup:
+    # image: minkurudev/filebeat_test:${STACK_VERSION}
     image: minkurudev/filebeat_suricata:${STACK_VERSION}
     volumes:
       - certs:/usr/share/filebeat/config/certs
@@ -143,6 +146,7 @@ services:
       - ELASTIC_HOSTS=https://es01:9200
       - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     depends_on:
+      # - logstash
       kibana:
         condition: service_healthy
     command: >

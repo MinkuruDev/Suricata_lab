@@ -2166,6 +2166,7 @@ rule-files:
   - nmap-detection.rules
   - dos-detection.rules
   - hunting.rules
+  - sqli-detection.rules
 
 ##
 ## Auxiliary configuration files.

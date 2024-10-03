@@ -16,10 +16,23 @@ RUN apt install -y suricata jq
 
 RUN suricata-update
 
+RUN apt install -y pip
+
+# Python flask webserver
+WORKDIR /app
+
+# COPY ./flask_server/requirements.txt .
+# RUN pip install -r requirements.txt
+
+RUN apt install -y python3-flask
+
 COPY *.rules /var/lib/suricata/rules/
 
 COPY suricata.yaml /etc/suricata/
 
-ENTRYPOINT [ "suricata" ]
+COPY ./flask_server/main.py /app
+COPY ./flask_server/templates/ /app/templates
 
-CMD [ "-i", "eth0" ]
+EXPOSE 80
+
+CMD ["sh", "-c", "suricata -i eth0 & python3 main.py"]
