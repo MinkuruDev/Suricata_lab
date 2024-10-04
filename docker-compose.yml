@@ -169,14 +169,25 @@ services:
     networks:
       - elastic_net
 
-  alerting1:
+  alive_check_1:
     image: minkurudev/alerting:1.0.0
     environment:
       - bot_name=Alertbot-1
       - webhook_url=${DISCORD_WEBHOOK}
     depends_on:
       - kibana
-    command: ["es01", "kibana", "suricata", "filebeat"]
+    command: ["suricata", "filebeat", "alive_check_2"]
+    networks:
+      - elastic_net
+
+  alive_check_2:
+    image: minkurudev/alerting:1.0.0
+    environment:
+      - bot_name=Alertbot-2
+      - webhook_url=${DISCORD_WEBHOOK}
+    depends_on:
+      - kibana
+    command: ["es01", "kibana", "alive_check_1"]
     networks:
       - elastic_net
 
