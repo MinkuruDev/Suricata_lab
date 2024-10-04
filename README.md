@@ -2,6 +2,8 @@
 
 A Suricata lab in Docker to test IPS/IDS, Dashboard is powered by Kibana
 
+![diagram](./images/Suricata_lab_2.drawio.png)
+
 ## Quickstart
 
 1. Clone the repo:
